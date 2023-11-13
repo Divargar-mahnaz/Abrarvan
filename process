@@ -1,0 +1,7 @@
+create database ip_detection_db;
+create user ip_user with encrypted password '123ip123IP@DB';
+ALTER ROLE ip_user SET client_encoding TO 'utf8';
+ALTER ROLE ip_user SET default_transaction_isolation TO 'read committed';
+ALTER ROLE ip_user SET timezone TO 'UTC';
+grant all privileges on database ip_detection_db to ip_user;
+-------------------------------------
