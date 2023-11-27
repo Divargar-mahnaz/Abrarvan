@@ -1,0 +1,52 @@
+Install Fluent:
+1. k create ns fluentbit
+2. helm upgrade --install fluent-bit fluent/fluent-bit -n fluentbit --values value.yaml
+fuluentbit:https://docs.fluentbit.io/manual/installation/kubernetes
+https://medium.com/kubernetes-tutorials/exporting-kubernetes-logs-to-elasticsearch-using-fluent-bit-758e8de606af
+Generate_ID     On
+-------------------------------------
+Install Prometheus & Grafana
+1. helm show values prometheus-community/kube-prometheus-stack  --version 46.8.0  > values.yaml
+2. changed values is in prometheus file.
+2. k create ns prometheus
+3. helm upgrade stable prometheus-community/kube-prometheus-stack -n prometheus --version 46.8.0 --values pm.yaml
+fix bug from here:https://github.com/prometheus-community/helm-charts/issues/204
+
+
+---------------------------------------
+Install Postgress:
+
+1.helm repo add bitnami https://charts.bitnami.com/bitnami
+2.helm show values bitnami/postgresql > ps.yaml
+3.helm install postgresql bitnami/postgresql -n postgres --values ps.yaml
+4.use pod to create DB:k exec -it -n postgres postgresql-0 -- psql -d postgres -U postgres bash
+create database ip_detection_db;
+create user ip_user with encrypted password '123ip123IP@DB';
+ALTER ROLE ip_user SET client_encoding TO 'utf8';
+ALTER ROLE ip_user SET default_transaction_isolation TO 'read committed';
+ALTER ROLE ip_user SET timezone TO 'UTC';
+grant all privileges on database ip_detection_db to ip_user;
+ALTER DATABASE ip_detection_db OWNER TO ip_user;
+
+----------------------------------------
+Slack Alerting:
+https://www.youtube.com/watch?v=yWzxbG3YDcM
+1. create slack workspace
+2. from your workspace title and click on tool & settings --> manage app
+3. from top click on Build  --> create New App --> From scratch --> Pase name select workpace and then creat.
+4. in the incoming webhooks --> on and  click on create web hook and then select chanel you want send alert to  --> Allow
+5. copy web hook to copy to grafana.
+My Webhook:https://hooks.slack.com/services/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
+
+-------------------------------
+in grafana go in alerting tab
+1. select notification chanel from top --> add new channel.
+2. Enter name,select type be slack and in optional slack only add web hook.
+3. sent and test message to you slack !!! Check it.
+(in my version Alerting --> contact points)
+4. create dashboard for ex dashboard for CPU Usage.
+and set type in Time Series.
+4. go to alert tab and click on create alert tab
+set name and set duration  10 s and for 1m : it means it check every 10 secont and if for 1m state be in condition send alarm.
+5.now defind condition if max   quary a  is above 40
+slack address : https://app.slack.com/client/T0671M7UCKY/C067AQ1759A
