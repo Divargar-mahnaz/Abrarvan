@@ -1,36 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ip_detection
+  name: ip-detection
   namespace: abrarvan
 spec:
-
   replicas: 1
   selector:
     matchLabels:
-      app: ip_detection
+      app: ip-detection
   template:
     metadata:
       labels:
-        app: ip_detection
+        app: ip-detection
     spec:
       containers:
-        - name: ip_detection
-          image: nginx
+        - name: ip-detection
+          image: mahnaz1376/ip_detect:1.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1000m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ip_detection
+  name: ip-detection
   namespace: abrarvan
 spec:
   type: NodePort
   selector:
-    app: ip_detection
+    app: ip-detection
   ports:
     - port: 8000
       targetPort: 8000
