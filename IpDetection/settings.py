@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-gp0)w0@b#=ft=)mnj#utmau@#740y$5b3!0h1g*$ql9b$06st7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -84,8 +84,8 @@ DATABASES = {
         "NAME": 'ip_detection_db',
         "USER": 'ip_user',
         "PASSWORD": '123ip123IP@DB',
-        "HOST": 'localhost',
-        "PORT": '5432',
+        "HOST": '172.31.1.221',
+        "PORT": '30117',
 
     }
 }
